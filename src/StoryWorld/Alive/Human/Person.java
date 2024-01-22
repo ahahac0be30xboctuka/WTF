@@ -18,32 +18,21 @@ import java.util.Objects;
 
 public class Person extends WildlifeObjects implements HandsActions, ActionsIncreaseMood, EmotionsAction, ActionsDicreaseMood {
     private int age;
-    public ArrayList<Person> children = new ArrayList<>();
+    private ArrayList<Person> children = new ArrayList<>();
     private Gender gender;
     private int mood;
     private int tiredness;
-    public int money;
+    private int money;
 
     public void setAge(int age) throws AgeException {
         if (age < 0 || age > 200) throw new AgeException("Некорректный возраст человека age = " + age);
         this.age = age;
-    } // ...throws AgeException - throwing AgeException type exceptions
-    // if... In this case, a new AgeException object is created with a message that contains information
-    // about the incorrect age, and the exception is thrown.
-    //if there is no outlier, the age value is assigned to the age field of the object.
+    } 
 
-    public Person(String name) throws AgeException {
-        super(name);
-        this.setAge(age);
+    public void setMoney(int money){
+        return this.money = money;
     }
-
-    public Person(String name, int age, Gender gender) throws AgeException {
-        super(name);
-        this.setAge(age);
-        this.children = null;
-        this.gender = gender;
-    }
-
+    
     public Person(String name, int age, Gender gender, Place location) throws AgeException {
         super(name, location);
         this.setAge(age);
