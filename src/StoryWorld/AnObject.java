@@ -3,7 +3,7 @@ package StoryWorld;
 import StoryWorld.Places.Place;
 
 public abstract class AnObject {
-    private String name;
+    private final String name;
     Coordinates coordinates = new Coordinates(
             Place.WORLD_DEFAULT.getX_coord(), Place.WORLD_DEFAULT.getY_coord(), Place.WORLD_DEFAULT.getZ_coord());
 
@@ -69,14 +69,6 @@ public abstract class AnObject {
         if (debug) {
             System.out.printf("[ Локация объекта \"%s\" x,y,z = %d,%d,%d ]%n",
                     this.name, this.coordinates.x, this.coordinates.y, this.coordinates.z);
-        }
-    }
-
-    public void setLocation(int x, int y, int z) {
-        makeMovement(x, y, z);
-        if (debug) {
-            System.out.printf("[ Локация объекта \"%s\" x,y,z = %d,%d,%d ]%n",
-                    this.name, coordinates.x, coordinates.y, coordinates.z);
         }
     }
 
