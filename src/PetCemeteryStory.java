@@ -26,7 +26,7 @@ public class PetCemeteryStory {
         InanimateObjects.inanimateinteraction = true; // enable/disable wildlife objects interaction
         DateTime.datatime = true; //enable/disable datatime
 
-        new DateTime(TimeOfYear.SUMMER, DayOfWeek.MONDAY, TimeOfDay.EVENING);
+        new DateTime(TimeOfYear.SUMMER, TimeOfDay.EVENING);
 
         AuthorsWords.writeText("Луис был прав");
         AuthorsWords.writeText("Крики Элли скоро перешли в сдавленные всхлилывания");
