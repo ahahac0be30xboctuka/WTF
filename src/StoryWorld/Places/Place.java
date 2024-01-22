@@ -35,9 +35,4 @@ public enum Place {
     public int getZ_coord() {
         return z_coord;
     }
-
-    /*@Override
-    public String toString() {
-        return title;
-    } */
 }
