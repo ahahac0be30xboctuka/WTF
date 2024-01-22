@@ -80,14 +80,14 @@ public class PetCemeteryStory {
 
         AuthorsWords.writeText("Элли приготовила ему подарок, потратив часть денег, выдававшихся ей," +
                 " на коробку кошачьих лакомств, и едва не отшлепала Гэджа за попытки подергать кота за хвост.");
-        ellie.money = 150;
+        ellie.setMoney();
         Present present = new Present("подарок");
         present.setCost(25);
         try {
             ellie.buy(new CatGoodies("кошачьи лакомства"), present.getCost());
             ellie.make(present);
         } catch (NotEnoughMoneyException notEnoughMoney) {
-            System.out.println("Похоже, что у Элли не хватает денег на покупку подарка");
+            System.err.println("Похоже, что у Элли не хватает денег на покупку подарка");
         }
 
         AuthorsWords.writeText("Гэдж захныкал, но не очень недовольно - для него выговор Элли был равносилен" +
@@ -126,7 +126,7 @@ public class PetCemeteryStory {
         ellie.say(gage, "история про Всадника без головы");
 
         AuthorsWords.writeText("Гэдж радостно лопотал про какого-то Дядю Чихача, когда его укладывали спать.");
-        gage.say("про " + new Person("Дядя Чихач").getName());
+        gage.say("про дядю Чихача");
 
         AuthorsWords.writeText("Рэчел смеялась до слез.");
         rachel.laugh();
