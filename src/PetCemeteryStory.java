@@ -80,7 +80,7 @@ public class PetCemeteryStory {
 
         AuthorsWords.writeText("Элли приготовила ему подарок, потратив часть денег, выдававшихся ей," +
                 " на коробку кошачьих лакомств, и едва не отшлепала Гэджа за попытки подергать кота за хвост.");
-        ellie.setMoney();
+        ellie.setMoney(100);
         Present present = new Present("подарок");
         present.setCost(25);
         try {
