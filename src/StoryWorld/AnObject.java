@@ -27,7 +27,7 @@ public abstract class AnObject {
         return this.coordinates;
     }
 
-    private void makeMovement(int x, int y, int z) {
+    public void makeMovement(int x, int y, int z) {
         int my_x = this.coordinates.x;
         int my_y = this.coordinates.y;
         int my_z = this.coordinates.z;
