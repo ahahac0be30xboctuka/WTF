@@ -3,12 +3,7 @@ package StoryWorld.Alive.Human.Emotions;
 public enum Emo {
     HAPPINESS("счастье", 10, -15),
     SADNESS("печаль", -10, 5),
-    FEAR("страх", -10, 10),
     ANGER("злость", -15, 12),
-    SURPRISE("удивление", 0, 7),
-    DISGUST("отвращение", -12, 10),
-    SHAME("стыд", -20, 5),
-    PRIDE("гордость", 50, 0),
     LOVE("любовь", 70, -10),
     RELIEF("облегчение", 25, -30);
 
