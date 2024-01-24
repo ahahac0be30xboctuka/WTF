@@ -1,6 +1,7 @@
 package StoryWorld.Alive;
 
 import StoryWorld.AnObject;
+import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Inanimate.InanimateObjects;
 import StoryWorld.Places.Place;
 
@@ -11,9 +12,7 @@ public abstract class WildlifeObjects extends AnObject {
         super(name, place);
     }
 
-    public WildlifeObjects(String name) {
-        super(name);
-    }
+    public abstract void setAge(int age) throws AgeException;
 
     public abstract void walk(WildlifeObjects to);
 

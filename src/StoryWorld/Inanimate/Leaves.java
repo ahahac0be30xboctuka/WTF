@@ -4,11 +4,6 @@ import StoryWorld.Inanimate.Interfaces.LeavesActions;
 
 public class Leaves extends InanimateObjects implements LeavesActions {
     private String color;
-    private boolean falled;
-
-    public boolean isFalled() {
-        return falled;
-    }
 
     public Leaves(String name) {
         super(name);
@@ -33,8 +28,6 @@ public class Leaves extends InanimateObjects implements LeavesActions {
 
     @Override
     public void fall() {
-        this.falled = true;
-        this.color = "";
         if (inanimateinteraction) {
             System.out.println(getName() + " опали");
         }

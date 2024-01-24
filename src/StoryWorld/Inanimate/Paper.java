@@ -6,10 +6,6 @@ public class Paper extends InanimateObjects {
 
     public String text;
 
-    public Paper(String name) {
-        super(name);
-    }
-
     public Paper(String name, Place location) {
         super(name, location);
     }

@@ -1,38 +1,28 @@
 package StoryWorld.Alive.Human;
 
-import StoryWorld.Alive.Gender;
 import StoryWorld.Alive.Human.Emotions.ActionsDicreaseMood;
+import StoryWorld.Alive.Human.Emotions.ActionsIncreaseMood;
 import StoryWorld.Alive.Human.Emotions.Emo;
 import StoryWorld.Alive.Human.Emotions.EmotionsAction;
-import StoryWorld.Alive.Human.Emotions.ActionsIncreaseMood;
 import StoryWorld.Alive.WildlifeObjects;
+import StoryWorld.Alive.Gender;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
-import StoryWorld.Inanimate.InanimateObjects;
-import StoryWorld.Inanimate.Paper;
+import StoryWorld.Inanimate.*;
 import StoryWorld.Places.Place;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 public class Person extends WildlifeObjects implements HandsActions, ActionsIncreaseMood, EmotionsAction, ActionsDicreaseMood {
     private int age;
-    private ArrayList<Person> children = new ArrayList<>();
-    private Gender gender;
-    private int mood;
-    private int tiredness;
+    public final ArrayList<Person> children;
+    private final Gender gender;
+    int mood;
+    int tiredness;
     private int money;
 
-    public void setAge(int age) throws AgeException {
-        if (age < 0 || age > 200) throw new AgeException("Некорректный возраст человека age = " + age);
-        this.age = age;
-    } 
-
-    public void setMoney(int money){
-        return this.money = money;
-    }
-    
     public Person(String name, int age, Gender gender, Place location) throws AgeException {
         super(name, location);
         this.setAge(age);
@@ -50,45 +40,30 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     private String verbEnding(String verb) {
         if (!gender.equals(Gender.MALE)) {
             switch (verb) {
-                case "подошел":
-                    verb = "подощла";
-                    break;
-                case "сказал":
-                    verb = "сказала";
-                    break;
-                case "обнял":
-                    verb = "обняла";
-                    break;
-                case "прикрепил":
-                    verb = "прикрепила";
-                    break;
-                case "сделал":
-                    verb = "сделала";
-                    break;
-                case "купил":
-                    verb = "купила";
-                    break;
-                case "захныкал":
-                    verb = "захныкала";
-                    break;
-                case "написал":
-                    verb = "написала";
-                    break;
-                case "смеялся":
-                    verb = "смеялась";
-                    break;
-                case "почувствовал":
-                    verb = "почувствовала";
-                    break;
-                case "показал":
-                    verb = "показала";
-                    break;
-                case "скрыл":
-                    verb = "скрыла";
-                    break;
+                case "подошел" -> verb = "подощла";
+                case "сказал" -> verb = "сказала";
+                case "обнял" -> verb = "обняла";
+                case "прикрепил" -> verb = "прикрепила";
+                case "сделал" -> verb = "сделала";
+                case "купил" -> verb = "купила";
+                case "захныкал" -> verb = "захныкала";
+                case "написал" -> verb = "написала";
+                case "смеялся" -> verb = "смеялась";
+                case "почувствовал" -> verb = "почувствовала";
+                case "показал" -> verb = "показала";
+                case "скрыл" -> verb = "скрыла";
             }
         }
         return verb;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void setAge(int age) throws AgeException {
+        if (age < 0 || age > 200) throw new AgeException("Некорректный возраст человека age = " + age);
+        this.age = age;
     }
 
     public void walk(WildlifeObjects to) {
@@ -110,7 +85,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     public void sleep() {
-        feel(new ArrayList<>(Arrays.asList(Emo.RELIEF)));
+        feel(new ArrayList<>(List.of(Emo.RELIEF)));
         if (aliveinteraction) {
             System.out.println(getName() + " спит");
         }
@@ -133,16 +108,6 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void put(InanimateObjects object, InanimateObjects on) {
-        String verb = "положил";
-        setLocation(object.getLocation());
-        setLocation(on.getLocation());
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\" на \"%s\"%n", getName(), verbEnding(verb), object.getName(), on.getName());
-        }
-    }
-
-    @Override
     public void put(WildlifeObjects object, InanimateObjects on) {
         String verb = "положил";
         setLocation(object.getLocation());
@@ -152,6 +117,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         }
     }
 
+    @Override
     public void take(WildlifeObjects object) {
         String verb = "взял";
         setLocation(object.getLocation());
@@ -197,26 +163,8 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void make(WildlifeObjects object) {
-        String verb = "сделал";
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
-    }
-
-    @Override
     public void make(InanimateObjects object) {
         String verb = "сделал";
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
-    }
-
-    @Override
-    public void buy(WildlifeObjects object, int cost) throws NotEnoughMoneyException {
-        String verb = "купил";
-        if (cost > this.money) throw new NotEnoughMoneyException("Не достаточно денег");
-        this.money -= cost;
         if (aliveinteraction) {
             System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         }
@@ -265,7 +213,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     @Override
     public void upset() {
         String verb = "опечалился";
-        feel(new ArrayList<>(Arrays.asList(Emo.SADNESS)));
+        feel(new ArrayList<>(List.of(Emo.SADNESS)));
         if (aliveinteraction) {
             System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
         }
@@ -294,7 +242,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
-    private void expressEmotions(String verb, ArrayList<Emo> emotions) {
+    public void expressEmotions(String verb, ArrayList<Emo> emotions) {
         if (aliveinteraction) {
             System.out.printf("%s %s ", this.getName(), verbEnding(verb));
             for (Emo emo : emotions) {
@@ -309,31 +257,5 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     @Override
     public void feel(ArrayList<Emo> emotions) {
         expressEmotions("почувствовал", emotions);
-    }
-
-    @Override
-    public void show(ArrayList<Emo> emotions) {
-        expressEmotions("показал", emotions);
-    }
-
-    @Override
-    public void hide(ArrayList<Emo> emotions) {
-        expressEmotions("скрыл", emotions);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Person person = (Person) object;
-        return getName().equals(person.getName()) &&
-                age == person.age &&
-                Objects.equals(children, person.children) &&
-                gender == person.gender;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), age, children, gender);
     }
 }

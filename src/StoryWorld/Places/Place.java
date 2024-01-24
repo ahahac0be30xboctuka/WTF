@@ -9,9 +9,9 @@ public enum Place {
     KINDERGARDEN("Детский садик", 14, 17, 1);
 
     private final String title;
-    private int x_coord;
-    private int y_coord;
-    private int z_coord;
+    private final int x_coord;
+    private final int y_coord;
+    private final int z_coord;
 
     Place(String title, int x, int y, int z) {
         this.title = title;
@@ -35,4 +35,5 @@ public enum Place {
     public int getZ_coord() {
         return z_coord;
     }
+
 }

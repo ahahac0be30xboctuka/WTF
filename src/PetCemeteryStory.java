@@ -1,4 +1,5 @@
 import StoryWorld.Alive.WildlifeObjects;
+import StoryWorld.CoordinateDifference;
 import StoryWorld.DateTime.DateTime;
 import StoryWorld.DateTime.DayOfWeek;
 import StoryWorld.DateTime.TimeOfDay;
@@ -15,7 +16,6 @@ import StoryWorld.Inanimate.*;
 import StoryWorld.Places.Place;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class PetCemeteryStory {
@@ -87,7 +87,7 @@ public class PetCemeteryStory {
             ellie.buy(new CatGoodies("кошачьи лакомства"), present.getCost());
             ellie.make(present);
         } catch (NotEnoughMoneyException notEnoughMoney) {
-            System.err.println("Похоже, что у Элли не хватает денег на покупку подарка");
+            System.out.println("Похоже, что у Элли не хватает денег на покупку подарка");
         }
 
         AuthorsWords.writeText("Гэдж захныкал, но не очень недовольно - для него выговор Элли был равносилен" +
@@ -113,7 +113,7 @@ public class PetCemeteryStory {
 
         AuthorsWords.writeText("Листья пожелтели, потом быстро пожухли. После одного холодного дождя в середине" +
                 " октября они начали опадать.");
-        new DateTime(TimeOfYear.AUTUMN, DayOfWeek.MONDAY, TimeOfDay.EVENING);
+        new DateTime(TimeOfYear.AUTUMN, TimeOfDay.EVENING);
         Leaves leaves = new Leaves("Листья");
         leaves.yellowed();
         leaves.withered();
@@ -132,5 +132,18 @@ public class PetCemeteryStory {
         rachel.laugh();
 
         AuthorsWords.writeText("Это было для них хорошее время");
+        try {
+            System.out.println(ellie.children.get(0).getName());
+        } catch (NullPointerException exception) {
+            System.out.println("Unchecked ошибка " + exception.toString());
+        }
+
+        CoordinateDifference coordinates = new CoordinateDifference(){
+            @Override
+            public void dif(int x1, int y1, int z1, int x2, int y2, int z2) {
+                System.out.printf("%d, %d, %d", x1-x2, y1-y2, z1-z2);
+            }
+        };
+        coordinates.dif(5,5,5, 4,4,4);
     }
 }
