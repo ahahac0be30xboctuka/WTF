@@ -1,4 +1,4 @@
-package StoryWorld.Alive.Animals.Emotions;
+ackage StoryWorld.Alive.Animals.Emotions;
 
 public enum Emo {
     HAPPINESS("счастье", 10, -15),
