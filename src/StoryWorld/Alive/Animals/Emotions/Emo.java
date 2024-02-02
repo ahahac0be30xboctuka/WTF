@@ -3,7 +3,9 @@ package StoryWorld.Alive.Animals.Emotions;
 public enum Emo {
     HAPPINESS("счастье", 10, -15),
     FEAR("страх", -10, 10),
-    RELIEF("облегчение", 25, -30);
+    RELIEF("облегчение", 25, -30),
+    ANGER("злость", -15, 12);
+
 
     private final String emotion;
     private final int mood;

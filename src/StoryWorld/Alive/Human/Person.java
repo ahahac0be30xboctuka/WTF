@@ -1,9 +1,7 @@
 package StoryWorld.Alive.Human;
 
-import StoryWorld.Alive.Human.Emotions.ActionsDicreaseMood;
-import StoryWorld.Alive.Human.Emotions.ActionsIncreaseMood;
-import StoryWorld.Alive.Human.Emotions.Emo;
-import StoryWorld.Alive.Human.Emotions.EmotionsAction;
+import StoryWorld.Alive.Animals.Cat;
+import StoryWorld.Alive.Human.Emotions.*;
 import StoryWorld.Alive.WildlifeObjects;
 import StoryWorld.Alive.Gender;
 import StoryWorld.Exceptions.AgeException;
@@ -22,6 +20,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     int mood;
     int tiredness;
     private int money;
+
 
     public Person(String name, int age, Gender gender, Place location) throws AgeException {
         super(name, location);
@@ -52,6 +51,8 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
                 case "почувствовал" -> verb = "почувствовала";
                 case "показал" -> verb = "показала";
                 case "скрыл" -> verb = "скрыла";
+                case "взял" -> verb = "взяла";
+                case "увидел" -> verb = "увидела";
             }
         }
         return verb;
@@ -70,104 +71,105 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         String verb = "подошел";
         setLocation(to.getLocation());
         this.tiredness += 5;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
-        }
+        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
     }
 
     public void walk(InanimateObjects to) {
         String verb = "подошел";
         setLocation(to.getLocation());
         this.tiredness += 5;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
-        }
+        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
     }
 
     public void sleep() {
         feel(new ArrayList<>(List.of(Emo.RELIEF)));
-        if (aliveinteraction) {
-            System.out.println(getName() + " спит");
-        }
+        System.out.println(getName() + " спит");
     }
 
-    public void say(WildlifeObjects object, String text) {
+    public void say(Person object, String text) {
         String verb = "сказал";
         this.tiredness += 1;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), verbEnding(verb), object.getName(), text);
+        System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), verbEnding(verb), object.getName(), text);
+        if(text.equals("слова выговора")){
+            object.feel(new ArrayList<>(List.of(Emo.SADNESS)));
         }
+        else if (text.equals("слова радости")){
+            object.feel(new ArrayList<>(List.of(Emo.HAPPINESS)));
+        }
+        else
+            System.out.println();
     }
 
     public void say(String text) {
         String verb = "сказал";
         this.tiredness += 1;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), text);
-        }
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), text);
     }
+    public void see(WildlifeObjects object){
+        String verb = "увидел";
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+    }
+
+    private boolean objectTaken = false;
 
     @Override
     public void put(WildlifeObjects object, InanimateObjects on) {
         String verb = "положил";
-        setLocation(object.getLocation());
-        setLocation(on.getLocation());
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\" на \"%s\"%n", getName(), verbEnding(verb), object.getName(), on.getName());
+        if (!objectTaken) {
+            throw new IllegalStateException("take method should be called before put");
         }
-    }
-
-    @Override
-    public void take(WildlifeObjects object) {
-        String verb = "взял";
-        setLocation(object.getLocation());
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
+        System.out.printf("\"%s\" %s \"%s\" на \"%s\"%n", getName(), verbEnding(verb), object.getName(), on.getName());
+        feel(new ArrayList<>(List.of(Emo.RELIEF)));
+        objectTaken = false;
     }
 
     @Override
     public void take(InanimateObjects object) {
         String verb = "взял";
-        setLocation(object.getLocation());
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+        objectTaken = true;
+    }
+
+    @Override
+    public void take(WildlifeObjects object) {
+        String verb = "взял";
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+        objectTaken = true;
     }
 
     @Override
     public void write(Paper paper, String text) {
         String verb = "написал";
         paper.text = text;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s на \"%s\" \"%s\"%n", getName(), verbEnding(verb), paper.getName(), paper.text);
-        }
+        System.out.printf("\"%s\" %s на \"%s\" \"%s\"%n", getName(), verbEnding(verb), paper.getName(), paper.text);
     }
 
     @Override
     public void attach(InanimateObjects object, InanimateObjects to) {
+        if (!objectTaken) {
+            throw new IllegalStateException("take method should be called before attach");
+        }
         String verb = "прикрепил";
         to.attachedObjects.add(object);
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
-        }
+        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
+        objectTaken = false;
     }
 
     @Override
     public void bring(InanimateObjects object) {
-        String verb = "принес";
-        setLocation(object.getLocation());
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+        if (!objectTaken) {
+            throw new IllegalStateException("take method should be called before bring");
         }
+        String verb = "принес";
+        setLocation(object.setLocation(Place.HOME));
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+        objectTaken = false;
     }
 
     @Override
     public void make(InanimateObjects object) {
         String verb = "сделал";
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
@@ -175,66 +177,49 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         if (cost > this.money) throw new NotEnoughMoneyException("Не достаточно денег");
         String verb = "купил";
         this.money -= cost;
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
     public void hug(WildlifeObjects object) {
         String verb = "обнял";
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
     }
 
     @Override
     public void hug(InanimateObjects object) {
         String verb = "обнял";
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
     }
 
     @Override
     public void cry() {
         String verb = "захныкал";
-        ArrayList<Emo> list = new ArrayList<>();
-        list.add(Emo.SADNESS);
-        list.add(Emo.ANGER);
-        feel(list);
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
-        }
+        feel(new ArrayList<>(List.of(Emo.SADNESS)));
+        System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
     }
 
     @Override
     public void upset() {
         String verb = "опечалился";
         feel(new ArrayList<>(List.of(Emo.SADNESS)));
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
-        }
+        System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
     }
 
     @Override
     public void laugh() {
         String verb = "смеялся";
+        System.out.printf("\"%s\" %s до слёз%n", getName(), verbEnding(verb));
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.RELIEF)));
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s до слёз%n", getName(), verbEnding(verb));
-        }
     }
 
     @Override
     public void kiss(WildlifeObjects object) {
         String verb = "поцеловал";
-        feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS, Emo.RELIEF)));
-        if (aliveinteraction) {
-            System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
-        }
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+        feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS)));
     }
 
     public void waitFor(WildlifeObjects object) {
@@ -243,15 +228,20 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     public void expressEmotions(String verb, ArrayList<Emo> emotions) {
-        if (aliveinteraction) {
-            System.out.printf("%s %s ", this.getName(), verbEnding(verb));
-            for (Emo emo : emotions) {
-                this.mood += emo.getMood();
-                this.tiredness += emo.getTiredness();
-                System.out.printf("%s ", emo.getEmotion());
-            }
-            System.out.println();
+        System.out.printf("%s %s ", this.getName(), verbEnding(verb));
+        for (Emo emo : emotions) {
+            this.mood += emo.getMood();
+            this.tiredness += emo.getTiredness();
+            System.out.printf("%s ", emo.getEmotion());
         }
+        System.out.println();
+    }
+
+    @Override
+    public void tryToPull(Cat object) {
+        String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
+        System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
+        object.feel(new ArrayList<>(List.of(StoryWorld.Alive.Animals.Emotions.Emo.ANGER)));
     }
 
     @Override

@@ -1,35 +1,43 @@
 package StoryWorld.Inanimate;
 
+import StoryWorld.DateTime.DateTime;
+import StoryWorld.DateTime.TimeOfYear;
 import StoryWorld.Inanimate.Interfaces.LeavesActions;
 
 public class Leaves extends InanimateObjects implements LeavesActions {
     private String color;
+    private final DateTime currentTimeOfYear;
 
-    public Leaves(String name) {
+    public Leaves(String name, DateTime currentTimeOfYear) {
         super(name);
+        this.currentTimeOfYear = currentTimeOfYear;
     }
+
     @Override
     public void yellowed() {
         this.color = "Жёлтые";
-        if (inanimateinteraction) {
+        if (currentTimeOfYear.getTimeOfYear() != TimeOfYear.AUTUMN) {
+            throw new IllegalStateException("Метод yellowed() может быть вызван только в осень.");
         }
-        if (debug) System.out.printf("[ Цвет листьев = %s ]%n", this.color);
         System.out.println(getName() + " пожелтели");
+        System.out.printf("[ Цвет листьев = %s ]%n", this.color);
     }
 
     @Override
     public void withered() {
         this.color = "Коричнево-серые";
-        if (inanimateinteraction) {
+        if (currentTimeOfYear.getTimeOfYear() != TimeOfYear.AUTUMN) {
+            throw new IllegalStateException("Метод yellowed() может быть вызван только в осень.");
         }
-        if (debug) System.out.printf("[ Цвет листьев = %s ]%n", this.color);
         System.out.println(getName() + " пожухли");
+        System.out.printf("[ Цвет листьев = %s ]%n", this.color);
     }
 
     @Override
     public void fall() {
-        if (inanimateinteraction) {
-            System.out.println(getName() + " опали");
+        if (currentTimeOfYear.getTimeOfYear() != TimeOfYear.AUTUMN) {
+            throw new IllegalStateException("Метод yellowed() может быть вызван только в осень.");
         }
+        System.out.println(getName() + " опали");
     }
 }

@@ -17,10 +17,9 @@ public abstract class AnObject {
         }
 
         @Override
-        public void dif(int x1, int y1, int z1, int x2, int y2, int z2){}
+        public void dif(int x1, int y1, int z1, int x2, int y2, int z2) {
+        }
     }
-
-    public static boolean debug = true;
 
     public String getName() {
         return name;
@@ -51,39 +50,31 @@ public abstract class AnObject {
                 my_z += step_z;
                 this.coordinates.z = my_z;
             }
-            if (debug)
                 System.out.printf("[ Координаты объекта %s x, y, z = %d, %d, %d ]%n", this.name,
                         this.coordinates.x, this.coordinates.y, this.coordinates.z);
         }
     }
 
-    public void setLocation(Place location) {
+    public Place setLocation(Place location) {
         makeMovement(location.getX_coord(), location.getY_coord(), location.getZ_coord());
-        if (debug) {
-            System.out.printf("[ Локация объекта \"%s\", \"%s\" ]%n", this.name, location.getTitle());
-        }
+        System.out.printf("[ Локация объекта \"%s\", \"%s\" ]%n", this.name, location.getTitle());
+        return location;
     }
 
     public void setLocation(Coordinates coordinates) {
         makeMovement(coordinates.x, coordinates.y, coordinates.z);
-        if (debug) {
-            System.out.printf("[ Локация объекта \"%s\" x,y,z = %d,%d,%d ]%n",
-                    this.name, this.coordinates.x, this.coordinates.y, this.coordinates.z);
-        }
+        System.out.printf("[ Локация объекта \"%s\" x,y,z = %d,%d,%d ]%n",
+                this.name, this.coordinates.x, this.coordinates.y, this.coordinates.z);
     }
 
     public AnObject(String name) {
         this.name = name;
-        if (debug) {
-            System.out.printf("[ Создан объект \"%s\" типа \"%s\" ]%n", this.name, this.getClass().getName());
-        }
+        System.out.printf("[ Создан объект \"%s\" типа \"%s\" ]%n", this.name, this.getClass().getName());
     }
 
     public AnObject(String name, Place location) {
         this.name = name;
-        if (debug) {
-            System.out.printf("[ Создан объект \"%s\" типа \"%s\" ]%n", this.name, this.getClass().getName());
-        }
+        System.out.printf("[ Создан объект \"%s\" типа \"%s\" ]%n", this.name, this.getClass().getName());
         this.coordinates.x = location.getX_coord();
         this.coordinates.y = location.getY_coord();
         this.coordinates.z = location.getZ_coord();

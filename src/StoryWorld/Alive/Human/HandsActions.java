@@ -1,5 +1,6 @@
 package StoryWorld.Alive.Human;
 
+import StoryWorld.Alive.Animals.Cat;
 import StoryWorld.Alive.WildlifeObjects;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
@@ -20,4 +21,5 @@ public interface HandsActions {
     void make(InanimateObjects object);
 
     void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException;
+    void tryToPull(Cat object);
 }

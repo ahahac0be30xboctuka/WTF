@@ -3,6 +3,7 @@ package StoryWorld.Alive.Animals;
 import StoryWorld.Alive.Animals.Emotions.Emo;
 import StoryWorld.Alive.Animals.Emotions.Emotions;
 import StoryWorld.Alive.Gender;
+import StoryWorld.Alive.Human.Person;
 import StoryWorld.Alive.WildlifeObjects;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Inanimate.InanimateObjects;
@@ -44,21 +45,24 @@ public class Cat extends WildlifeObjects implements Emotions {
 
     public void sleep() {
         feel(new ArrayList<>(List.of(Emo.RELIEF)));
-        if (aliveinteraction) {
-            System.out.println(getName() + " спит");
-        }
+        System.out.println(getName() + " спит");
     }
 
-    public void say(WildlifeObjects object, String text) {
+    public void say(Person object, String text) {
         String verb = "мяукнул";
         this.tiredness += 1;
-        System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), object.getName(), text);
+        System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), object.getName(),verb, text);
     }
 
     public void say(String text) {
         String verb = "мяукнул";
         this.tiredness += 1;
-        System.out.printf("\"%s\" %s \"%s\"%n", getName(), text);
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, text);
+    }
+
+    public void see(WildlifeObjects object) {
+        String verb = "увидел";
+        System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, object.getName());
     }
 
     public void allowToCarryMe(WildlifeObjects object) {
@@ -69,7 +73,6 @@ public class Cat extends WildlifeObjects implements Emotions {
 
     public void change() {
         String verb = "изменился";
-        feel(new ArrayList<>(List.of(Emo.FEAR)));
         System.out.printf("\"%s\" %s%n", getName(), verb);
     }
 

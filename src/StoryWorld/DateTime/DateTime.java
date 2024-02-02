@@ -1,15 +1,22 @@
 package StoryWorld.DateTime;
 
 public class DateTime {
-    public static boolean datatime = true;
-    public DateTime(TimeOfYear timeOfYear, DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
-        if (datatime) {
-            System.out.printf("%s %s %s%n", timeOfYear.toString(), dayOfWeek.toString(), timeOfDay.toString());
-        }
-    }
+    private TimeOfYear timeOfYear;
+    private DayOfWeek dayOfWeek;
+    private TimeOfDay timeOfDay;
     public DateTime(TimeOfYear timeOfYear, TimeOfDay timeOfDay) {
-        if (datatime) {
-            System.out.printf("%s %s%n", timeOfYear.toString(), timeOfDay.toString());
-        }
+        this.timeOfYear = timeOfYear;
+        this.timeOfDay = timeOfDay;
+        System.out.printf("%s %s%n", timeOfYear.toString(), timeOfDay.toString());
+    }
+    public DateTime(TimeOfYear timeOfYear, DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
+        this.timeOfYear = timeOfYear;
+        this.dayOfWeek = dayOfWeek;
+        this.timeOfDay = timeOfDay;
+        System.out.printf("%s %s %s%n", timeOfYear.toString(), dayOfWeek.toString(), timeOfDay.toString());
+    }
+
+    public TimeOfYear getTimeOfYear() {
+        return timeOfYear;
     }
 }

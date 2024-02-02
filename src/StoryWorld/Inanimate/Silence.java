@@ -9,8 +9,6 @@ public class Silence extends InanimateObjects {
     static Silence silence = new Silence();
 
     public static void come() {
-        if (inanimateinteraction) {
-            System.out.println(silence.getName() + " пришла");
-        }
+        System.out.println(silence.getName() + " пришла");
     }
 }

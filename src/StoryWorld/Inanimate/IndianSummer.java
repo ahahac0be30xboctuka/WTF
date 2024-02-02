@@ -1,21 +1,29 @@
 package StoryWorld.Inanimate;
 
+import StoryWorld.DateTime.DateTime;
+import StoryWorld.DateTime.TimeOfYear;
 import StoryWorld.Inanimate.Interfaces.IndianSummerActions;
 
 public class IndianSummer extends InanimateObjects implements IndianSummerActions {
+    private final DateTime currentTimeOfYear;
 
-    public IndianSummer() {
+    public IndianSummer(DateTime currentTimeOfYear) {
         super("Бабье лето");
+        this.currentTimeOfYear = currentTimeOfYear;
     }
-    static IndianSummer indianSummer = new IndianSummer();
+
+    @Override
     public void come() {
-        if (inanimateinteraction) {
-            System.out.println(indianSummer.getName() + " пришло");
+        if (currentTimeOfYear.getTimeOfYear() != TimeOfYear.AUTUMN) {
+            throw new IllegalStateException("Метод come() может быть вызван только в осень.");
         }
+        System.out.println(getName() + " пришло");
     }
+    @Override
     public void pass() {
-        if (inanimateinteraction) {
-            System.out.println(indianSummer.getName() + " прошло");
+        if (currentTimeOfYear.getTimeOfYear() != TimeOfYear.AUTUMN) {
+            throw new IllegalStateException("Метод pass() может быть вызван только в осень.");
         }
+        System.out.println(getName() + " прошло");
     }
 }

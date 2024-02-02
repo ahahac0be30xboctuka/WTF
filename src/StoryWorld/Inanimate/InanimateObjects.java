@@ -6,7 +6,6 @@ import StoryWorld.Places.Place;
 import java.util.ArrayList;
 
 public abstract class InanimateObjects extends AnObject {
-    public static boolean inanimateinteraction = true;
     private int cost;
 
     public int getCost() {
