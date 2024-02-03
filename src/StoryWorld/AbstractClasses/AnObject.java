@@ -1,9 +1,13 @@
-package StoryWorld;
+package StoryWorld.AbstractClasses;
 
-import StoryWorld.Places.Place;
+import StoryWorld.Enums.Place;
 
 public abstract class AnObject {
     private final String name;
+
+    public String getName() {
+        return name;
+    }
     Coordinates coordinates = new Coordinates(
             Place.WORLD_DEFAULT.getX_coord(), Place.WORLD_DEFAULT.getY_coord(), Place.WORLD_DEFAULT.getZ_coord());
 
@@ -19,10 +23,6 @@ public abstract class AnObject {
         @Override
         public void dif(int x1, int y1, int z1, int x2, int y2, int z2) {
         }
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Coordinates getLocation() {
@@ -78,6 +78,9 @@ public abstract class AnObject {
         this.coordinates.x = location.getX_coord();
         this.coordinates.y = location.getY_coord();
         this.coordinates.z = location.getZ_coord();
+    }
+    public interface CoordinateDifference {
+        void dif(int x1, int y1, int z1, int x2, int y2, int z2);
     }
 
     @Override

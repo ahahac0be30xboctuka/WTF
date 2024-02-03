@@ -1,7 +1,8 @@
-package StoryWorld.Alive.Human;
+package StoryWorld.Interfaces.WildlifeInterfaces;
 
-import StoryWorld.Alive.Animals.Cat;
-import StoryWorld.Alive.WildlifeObjects;
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
+import StoryWorld.Alive.Cat;
+import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
 

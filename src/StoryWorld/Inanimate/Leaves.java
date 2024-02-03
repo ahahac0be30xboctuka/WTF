@@ -1,8 +1,9 @@
 package StoryWorld.Inanimate;
 
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 import StoryWorld.DateTime.DateTime;
-import StoryWorld.DateTime.TimeOfYear;
-import StoryWorld.Inanimate.Interfaces.LeavesActions;
+import StoryWorld.Enums.Time.TimeOfYear;
+import StoryWorld.Interfaces.InanimateInterfaces.LeavesActions;
 
 public class Leaves extends InanimateObjects implements LeavesActions {
     private String color;

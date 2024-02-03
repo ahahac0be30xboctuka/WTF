@@ -1,4 +1,4 @@
-package StoryWorld.DateTime;
+package StoryWorld.Enums.Time;
 
 public enum DayOfWeek {
     SUNDAY("Воскресенье"),

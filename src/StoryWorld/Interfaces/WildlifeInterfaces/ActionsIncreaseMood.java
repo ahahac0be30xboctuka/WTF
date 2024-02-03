@@ -1,7 +1,7 @@
-package StoryWorld.Alive.Human.Emotions;
+package StoryWorld.Interfaces.WildlifeInterfaces;
 
-import StoryWorld.Alive.WildlifeObjects;
-import StoryWorld.Inanimate.InanimateObjects;
+import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 
 public interface ActionsIncreaseMood {
     void hug(WildlifeObjects object);

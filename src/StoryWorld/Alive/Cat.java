@@ -1,18 +1,16 @@
-package StoryWorld.Alive.Animals;
+package StoryWorld.Alive;
 
-import StoryWorld.Alive.Animals.Emotions.Emo;
-import StoryWorld.Alive.Animals.Emotions.Emotions;
-import StoryWorld.Alive.Gender;
-import StoryWorld.Alive.Human.Person;
-import StoryWorld.Alive.WildlifeObjects;
+import StoryWorld.Enums.Gender;
+import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
+import StoryWorld.Enums.Emo;
 import StoryWorld.Exceptions.AgeException;
-import StoryWorld.Inanimate.InanimateObjects;
-import StoryWorld.Places.Place;
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
+import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cat extends WildlifeObjects implements Emotions {
+public class Cat extends WildlifeObjects {
     private int age;
     private final Gender gender;
     int mood;
@@ -65,6 +63,10 @@ public class Cat extends WildlifeObjects implements Emotions {
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, object.getName());
     }
 
+    public void feel(ArrayList<Emo> emotion) {
+        expressEmotions(emotion);
+    }
+
     public void allowToCarryMe(WildlifeObjects object) {
         String verb = "позволил";
         feel(new ArrayList<>(List.of(Emo.HAPPINESS)));
@@ -76,19 +78,14 @@ public class Cat extends WildlifeObjects implements Emotions {
         System.out.printf("\"%s\" %s%n", getName(), verb);
     }
 
-    private void expressEmotions(String verb, ArrayList<StoryWorld.Alive.Animals.Emotions.Emo> emotion) {
-        System.out.printf("%s %s ", this.getName(), verb);
-        for (StoryWorld.Alive.Animals.Emotions.Emo emo : emotion) {
+    private void expressEmotions(ArrayList<Emo> emotion) {
+        System.out.printf("%s %s ", this.getName(), "почувствовал");
+        for (Emo emo : emotion) {
             this.mood = emo.getMood();
             this.tiredness = emo.getTiredness();
             System.out.printf("%s ", emo.getEmotion());
         }
         System.out.println();
-    }
-
-    @Override
-    public void feel(ArrayList<StoryWorld.Alive.Animals.Emotions.Emo> emotion) {
-        expressEmotions("почувствовал", emotion);
     }
 }
 

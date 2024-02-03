@@ -1,9 +1,13 @@
 package StoryWorld.DateTime;
 
+import StoryWorld.Enums.Time.DayOfWeek;
+import StoryWorld.Enums.Time.TimeOfDay;
+import StoryWorld.Enums.Time.TimeOfYear;
+
 public class DateTime {
-    private TimeOfYear timeOfYear;
+    private final TimeOfYear timeOfYear;
     private DayOfWeek dayOfWeek;
-    private TimeOfDay timeOfDay;
+    private final TimeOfDay timeOfDay;
     public DateTime(TimeOfYear timeOfYear, TimeOfDay timeOfDay) {
         this.timeOfYear = timeOfYear;
         this.timeOfDay = timeOfDay;

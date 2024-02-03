@@ -1,4 +1,4 @@
-package StoryWorld.DateTime;
+package StoryWorld.Enums.Time;
 
 public enum TimeOfYear {
     WINTER("Зима"),

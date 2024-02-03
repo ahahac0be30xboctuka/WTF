@@ -1,4 +1,4 @@
-package StoryWorld.Places;
+package StoryWorld.Enums;
 
 public enum Place {
     WORLD_DEFAULT("Мир кладбища домашних животных", 0, 0, 0),
@@ -35,5 +35,4 @@ public enum Place {
     public int getZ_coord() {
         return z_coord;
     }
-
 }

@@ -1,4 +1,4 @@
-package StoryWorld.Alive.Human.Emotions;
+package StoryWorld.Interfaces.WildlifeInterfaces;
 
 public interface ActionsDicreaseMood {
     void cry();

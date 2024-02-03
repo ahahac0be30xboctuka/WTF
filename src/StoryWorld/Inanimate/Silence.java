@@ -1,5 +1,7 @@
 package StoryWorld.Inanimate;
 
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
+
 public class Silence extends InanimateObjects {
 
     public Silence() {

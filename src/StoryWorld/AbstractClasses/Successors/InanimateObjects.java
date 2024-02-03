@@ -1,7 +1,7 @@
-package StoryWorld.Inanimate;
+package StoryWorld.AbstractClasses.Successors;
 
-import StoryWorld.AnObject;
-import StoryWorld.Places.Place;
+import StoryWorld.AbstractClasses.AnObject;
+import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 
@@ -15,8 +15,6 @@ public abstract class InanimateObjects extends AnObject {
     public void setCost(int cost) {
         this.cost = cost;
     }
-
-    public ArrayList<InanimateObjects> attachedObjects = new ArrayList<>();
 
     public InanimateObjects(String name) {
         super(name);

@@ -1,23 +1,24 @@
-import StoryWorld.Alive.Animals.Cat;
-import StoryWorld.Alive.Gender;
-import StoryWorld.Alive.Human.Emotions.Emo;
-import StoryWorld.Alive.Human.Person;
-import StoryWorld.CoordinateDifference;
+import StoryWorld.AbstractClasses.AnObject;
+import StoryWorld.Alive.Cat;
+import StoryWorld.Enums.Gender;
+import StoryWorld.Enums.Emo;
+import StoryWorld.Alive.Person;
 import StoryWorld.DateTime.DateTime;
-import StoryWorld.DateTime.DayOfWeek;
-import StoryWorld.DateTime.TimeOfDay;
-import StoryWorld.DateTime.TimeOfYear;
+import StoryWorld.Enums.Time.DayOfWeek;
+import StoryWorld.Enums.Time.TimeOfDay;
+import StoryWorld.Enums.Time.TimeOfYear;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
-import StoryWorld.Inanimate.Buildings.Home;
-import StoryWorld.Places.Place;
+import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 
-public class PetCemeteryStory {
+public class Main {
     public static void main(String[] args) throws AgeException {
 
         new DateTime(TimeOfYear.SUMMER, DayOfWeek.MONDAY, TimeOfDay.EVENING);
@@ -31,6 +32,7 @@ public class PetCemeteryStory {
         Person louis = new Person("Луис", 45, Gender.MALE, Place.HALL, children);
         Person rachel = new Person("Рэчел", 40, Gender.FEMALE, Place.BEDROOM, children);
         Cat cherch = new Cat("Черч", 7, Gender.MALE, Place.WORLD_DEFAULT);
+        Home home = new Home();
 
         ellie.cry();
         Silence.come();
@@ -57,7 +59,7 @@ public class PetCemeteryStory {
         louis.sleep();
 
         new DateTime(TimeOfYear.SUMMER, DayOfWeek.FRIDAY, TimeOfDay.EVENING);
-        cherch.walk(new Home(Place.HOME));
+        cherch.walk(home);
 
         ellie.setMoney(100);
         Present present = new Present("подарок");
@@ -85,7 +87,7 @@ public class PetCemeteryStory {
         indianSummer.come();
         indianSummer.pass();
 
-        Leaves leaves = new Leaves("Листья",dateTime);
+        Leaves leaves = new Leaves("Листья", dateTime);
         leaves.yellowed();
         leaves.withered();
         leaves.fall();
@@ -107,8 +109,48 @@ public class PetCemeteryStory {
             System.out.println("Unchecked ошибка " + exception);
         }
 
-        CoordinateDifference coordinates = (x1, y1, z1, x2, y2, z2) ->
-                System.out.printf("%d, %d, %d", x1 - x2, y1 - y2, z1 - z2);
-        coordinates.dif(5, 5, 5, 4, 4, 4);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Хотите посчитать перемещение? (да/нет)");
+
+        String answer = sc.nextLine();
+
+        if ("да".equalsIgnoreCase(answer)) {
+            System.out.println("Введите координаты места 1 (x1, y1, z1):");
+            int x1 = sc.nextInt();
+            int y1 = sc.nextInt();
+            int z1 = sc.nextInt();
+
+            System.out.println("Введите координаты места 2 (x2, y2, z2):");
+            int x2 = sc.nextInt();
+            int y2 = sc.nextInt();
+            int z2 = sc.nextInt();
+
+            AnObject.CoordinateDifference coordinates = (x, y, z, a, b, c) ->
+                    System.out.printf("Разница: %d, %d, %d", Math.abs(x - a), Math.abs(y - b), Math.abs(z - c));
+            coordinates.dif(x1, y1, z1, x2, y2, z2);
+        } else {
+            System.out.println("Ну, не хочешь - как хочешь");
+        }
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Желаете сравнить два объекта Person? (да/нет)");
+        String userChoice = scanner.nextLine();
+
+        if ("да".equalsIgnoreCase(userChoice)) {
+            System.out.println("Введите имя первого объекта Person:");
+            String name1 = scanner.nextLine();
+
+            System.out.println("Введите имя второго объекта Person:");
+            String name2 = scanner.nextLine();
+
+            if (name1.equals(name2)) {
+                System.out.println("Объекты равны");
+            } else {
+                System.out.println("Объекты не равны");
+            }
+        } else {
+            System.out.println("Ну, не хочешь - как хочешь");
+        }
     }
 }

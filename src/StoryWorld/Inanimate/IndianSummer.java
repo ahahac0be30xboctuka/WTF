@@ -1,8 +1,9 @@
 package StoryWorld.Inanimate;
 
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 import StoryWorld.DateTime.DateTime;
-import StoryWorld.DateTime.TimeOfYear;
-import StoryWorld.Inanimate.Interfaces.IndianSummerActions;
+import StoryWorld.Enums.Time.TimeOfYear;
+import StoryWorld.Interfaces.InanimateInterfaces.IndianSummerActions;
 
 public class IndianSummer extends InanimateObjects implements IndianSummerActions {
     private final DateTime currentTimeOfYear;

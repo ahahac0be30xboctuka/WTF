@@ -1,6 +1,7 @@
 package StoryWorld.Inanimate;
 
-import StoryWorld.Places.Place;
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
+import StoryWorld.Enums.Place;
 
 public class Bed extends InanimateObjects {
 

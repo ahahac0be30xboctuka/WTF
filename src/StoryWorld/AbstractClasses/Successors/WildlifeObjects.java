@@ -1,11 +1,10 @@
-package StoryWorld.Alive;
+package StoryWorld.AbstractClasses.Successors;
 
-import StoryWorld.Alive.Human.Emotions.Emo;
-import StoryWorld.Alive.Human.Person;
-import StoryWorld.AnObject;
+import StoryWorld.AbstractClasses.AnObject;
+import StoryWorld.Alive.Person;
+import StoryWorld.Enums.Emo;
 import StoryWorld.Exceptions.AgeException;
-import StoryWorld.Inanimate.InanimateObjects;
-import StoryWorld.Places.Place;
+import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 
@@ -27,4 +26,5 @@ public abstract class WildlifeObjects extends AnObject {
 
     public abstract void say(String text);
     public abstract void see(WildlifeObjects object);
+    public abstract void feel(ArrayList<Emo> emotion);
 }

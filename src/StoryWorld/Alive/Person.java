@@ -1,24 +1,28 @@
-package StoryWorld.Alive.Human;
+package StoryWorld.Alive;
 
-import StoryWorld.Alive.Animals.Cat;
-import StoryWorld.Alive.Human.Emotions.*;
-import StoryWorld.Alive.WildlifeObjects;
-import StoryWorld.Alive.Gender;
+import StoryWorld.AbstractClasses.Successors.InanimateObjects;
+import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
+import StoryWorld.Enums.Emo;
+import StoryWorld.Enums.Gender;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
-import StoryWorld.Places.Place;
+import StoryWorld.Interfaces.WildlifeInterfaces.ActionsDicreaseMood;
+import StoryWorld.Interfaces.WildlifeInterfaces.ActionsIncreaseMood;
+import StoryWorld.Interfaces.WildlifeInterfaces.HandsActions;
+import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-public class Person extends WildlifeObjects implements HandsActions, ActionsIncreaseMood, EmotionsAction, ActionsDicreaseMood {
+public class Person extends WildlifeObjects implements HandsActions, ActionsIncreaseMood, ActionsDicreaseMood {
     private int age;
     public final ArrayList<Person> children;
     private final Gender gender;
-    int mood;
-    int tiredness;
+    private int mood;
+    private int tiredness;
     private int money;
 
 
@@ -78,7 +82,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         String verb = "подошел";
         setLocation(to.getLocation());
         this.tiredness += 5;
-        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
+        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb),to.getName());
     }
 
     public void sleep() {
@@ -108,6 +112,9 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     public void see(WildlifeObjects object){
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+    }
+    public void feel(ArrayList<Emo> emotions) {
+        expressEmotions("почувствовал", emotions);
     }
 
     private boolean objectTaken = false;
@@ -150,8 +157,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
             throw new IllegalStateException("take method should be called before attach");
         }
         String verb = "прикрепил";
-        to.attachedObjects.add(object);
-        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
+        System.out.printf("\"%s\" %s \"%s\" к \"%s\"%n", getName(), verbEnding(verb), object.getName(),to.getName());
         objectTaken = false;
     }
 
@@ -178,6 +184,13 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         String verb = "купил";
         this.money -= cost;
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
+    }
+
+    @Override
+    public void tryToPull(Cat object) {
+        String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
+        System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
+        object.feel(new ArrayList<>(List.of(Emo.ANGER)));
     }
 
     @Override
@@ -238,14 +251,15 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void tryToPull(Cat object) {
-        String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
-        System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
-        object.feel(new ArrayList<>(List.of(StoryWorld.Alive.Animals.Emotions.Emo.ANGER)));
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Person person = (Person) object;
+        return this.hashCode() == object.hashCode();
     }
 
     @Override
-    public void feel(ArrayList<Emo> emotions) {
-        expressEmotions("почувствовал", emotions);
+    public int hashCode() {
+        return Objects.hash(getName(), age, children, gender);
     }
 }

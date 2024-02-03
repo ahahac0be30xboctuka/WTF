@@ -1,4 +1,6 @@
-package StoryWorld.Alive.Human.Emotions;
+package StoryWorld.Enums;
+
+import java.util.ArrayList;
 
 public enum Emo {
     HAPPINESS("счастье", 10, -15),
@@ -22,7 +24,6 @@ public enum Emo {
     public int getTiredness() {
         return tiredness;
     }
-
 
     Emo(String emotion, int mood, int tiredness) {
         this.emotion = emotion;

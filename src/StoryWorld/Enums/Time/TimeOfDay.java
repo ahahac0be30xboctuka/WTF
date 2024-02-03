@@ -1,4 +1,4 @@
-package StoryWorld.DateTime;
+package StoryWorld.Enums.Time;
 
 public enum TimeOfDay {
     MORNING("Утро"),
