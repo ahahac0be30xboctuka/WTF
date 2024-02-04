@@ -1,7 +1,5 @@
 package StoryWorld.Enums;
 
-import java.util.ArrayList;
-
 public enum Emo {
     HAPPINESS("счастье", 10, -15),
     SADNESS("печаль", -10, 5),

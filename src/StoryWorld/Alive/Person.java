@@ -253,13 +253,13 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
+        if (!(object instanceof Person)) return false;
         Person person = (Person) object;
         return this.hashCode() == object.hashCode();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), age, children, gender);
+        return Objects.hash(getName(), age, children, gender, mood, tiredness);
     }
 }

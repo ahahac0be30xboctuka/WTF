@@ -1,25 +1,29 @@
 import StoryWorld.AbstractClasses.AnObject;
 import StoryWorld.Alive.Cat;
-import StoryWorld.Enums.Gender;
-import StoryWorld.Enums.Emo;
 import StoryWorld.Alive.Person;
 import StoryWorld.DateTime.DateTime;
+import StoryWorld.Enums.Emo;
+import StoryWorld.Enums.Gender;
+import StoryWorld.Enums.Place;
 import StoryWorld.Enums.Time.DayOfWeek;
 import StoryWorld.Enums.Time.TimeOfDay;
 import StoryWorld.Enums.Time.TimeOfYear;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
-import StoryWorld.Enums.Place;
+import StoryWorld.Interfaces.WildlifeInterfaces.StartStory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
-
 public class Main {
+    public static void execute(StartStory startStory){
+        startStory.begin();
+    }
     public static void main(String[] args) throws AgeException {
+
+        execute(() -> System.out.println("\"Человек есть то, что он читает\"" + " " + "(Иосиф Бродский)"));
 
         new DateTime(TimeOfYear.SUMMER, DayOfWeek.MONDAY, TimeOfDay.EVENING);
 
@@ -108,6 +112,7 @@ public class Main {
         } catch (NullPointerException exception) {
             System.out.println("Unchecked ошибка " + exception);
         }
+
         if (ellie.equals(gage)) {
             System.out.println("объекты равны");
         } else {
