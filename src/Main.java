@@ -108,6 +108,11 @@ public class Main {
         } catch (NullPointerException exception) {
             System.out.println("Unchecked ошибка " + exception);
         }
+        if (ellie.equals(gage)) {
+            System.out.println("объекты равны");
+        } else {
+            System.out.println("объекты не равны");
+        }
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Хотите посчитать перемещение? (да/нет)");
@@ -128,27 +133,6 @@ public class Main {
             AnObject.CoordinateDifference coordinates = (x, y, z, a, b, c) ->
                     System.out.printf("Разница: %d, %d, %d", Math.abs(x - a), Math.abs(y - b), Math.abs(z - c));
             coordinates.dif(x1, y1, z1, x2, y2, z2);
-        } else {
-            System.out.println("Ну, не хочешь - как хочешь");
-        }
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Желаете сравнить два объекта Person? (да/нет)");
-        String userChoice = scanner.nextLine();
-
-        if ("да".equalsIgnoreCase(userChoice)) {
-            System.out.println("Введите имя первого объекта Person:");
-            String name1 = scanner.nextLine();
-
-            System.out.println("Введите имя второго объекта Person:");
-            String name2 = scanner.nextLine();
-
-            if (name1.equals(name2)) {
-                System.out.println("Объекты равны");
-            } else {
-                System.out.println("Объекты не равны");
-            }
         } else {
             System.out.println("Ну, не хочешь - как хочешь");
         }
