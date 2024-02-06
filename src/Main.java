@@ -9,7 +9,9 @@ import StoryWorld.Enums.Time.DayOfWeek;
 import StoryWorld.Enums.Time.TimeOfDay;
 import StoryWorld.Enums.Time.TimeOfYear;
 import StoryWorld.Exceptions.AgeException;
+import StoryWorld.Exceptions.LocationException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
+import StoryWorld.Exceptions.MoodException;
 import StoryWorld.Inanimate.*;
 import StoryWorld.Interfaces.WildlifeInterfaces.StartStory;
 
@@ -18,10 +20,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void execute(StartStory startStory){
+    public static void execute(StartStory startStory) {
         startStory.begin();
     }
-    public static void main(String[] args) throws AgeException {
+
+    public static void main(String[] args) throws AgeException, MoodException {
 
         execute(() -> System.out.println("\"Человек есть то, что он читает\"" + " " + "(Иосиф Бродский)"));
 
@@ -38,17 +41,23 @@ public class Main {
         Cat cherch = new Cat("Черч", 7, Gender.MALE, Place.WORLD_DEFAULT);
         Home home = new Home();
 
-        ellie.cry();
-        Silence.come();
+        ellie.cry(Emo.SADNESS);
+        System.out.println("Наступила тишина");
 
         louis.walk(ellie);
         CatBasket basket = new CatBasket("кошачья корзинка", Place.ELLIES_ROOM);
         ellie.hug(basket);
         ellie.sleep();
 
-        louis.take(ellie);
-        louis.put(ellie, new Bed("Кровать Элли", Place.ELLIES_ROOM));
-        louis.kiss(ellie);
+        try {
+            if (louis.getLocation() == ellie.getLocation()) {
+                louis.take(ellie);
+                louis.put(ellie, new Bed("Кровать Элли", Place.ELLIES_ROOM));
+                louis.kiss(ellie);
+            }
+        } catch (LocationException locationException) {
+            System.out.println("Это действие можно сделать только в одной локации");
+        }
 
         Paper paper = new Paper("листок бумаги", Place.HALL);
         louis.take(paper);
@@ -68,6 +77,7 @@ public class Main {
         ellie.setMoney(100);
         Present present = new Present("подарок");
         present.setCost(25);
+
         try {
             ellie.buy(new CatGoodies("кошачьи лакомства"), present.getCost());
             ellie.make(present);
@@ -78,10 +88,20 @@ public class Main {
         gage.tryToPull(cherch);
         ellie.feel(new ArrayList<>(List.of(Emo.ANGER)));
         ellie.say(gage, "слова выговора");
-        gage.cry();
+
+        try {
+            gage.cry(Emo.SADNESS);
+        } catch (MoodException moodException) {
+            System.out.println("Нельзя заплакать, не испытав печали");
+        }
 
         louis.see(cherch);
-        louis.upset();
+
+        try {
+            louis.upset(Emo.SADNESS);
+        } catch (MoodException moodException) {
+            System.out.println("Нельзя расстроиться, не испытав печали");
+        }
 
         cherch.allowToCarryMe(ellie);
         cherch.change();
@@ -105,7 +125,11 @@ public class Main {
         ellie.say(gage, "история про Всадника без головы");
 
         gage.say("про дядю Чихача");
-        rachel.laugh();
+        try {
+            rachel.laugh(Emo.HAPPINESS);
+        } catch (MoodException moodException) {
+            System.out.println("Нельзя засмеяться, не испытав радости");
+        }
 
         try {
             System.out.println(ellie.children.get(0).getName());

@@ -1,11 +1,11 @@
 package StoryWorld.Enums;
 
 public enum Emo {
-    HAPPINESS("счастье", 10, -15),
+    HAPPINESS("счастье", 10, -5),
     SADNESS("печаль", -10, 5),
-    ANGER("злость", -15, 12),
-    LOVE("любовь", 70, -10),
-    RELIEF("облегчение", 25, -30);
+    ANGER("злость", -15, 10),
+    LOVE("любовь", 20, -10),
+    RELIEF("облегчение", 5, -20);
 
     private final String emotion;
     private final int mood;

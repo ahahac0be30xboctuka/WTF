@@ -5,6 +5,8 @@ import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
 import StoryWorld.Enums.Emo;
 import StoryWorld.Enums.Gender;
 import StoryWorld.Exceptions.AgeException;
+import StoryWorld.Exceptions.LocationException;
+import StoryWorld.Exceptions.MoodException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
 import StoryWorld.Interfaces.WildlifeInterfaces.ActionsDicreaseMood;
@@ -208,28 +210,31 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void cry() {
+    public void cry(Emo emo) throws MoodException {
+        if(emo != Emo.SADNESS) throw new MoodException("Нельзя заплакать, не испытав печали");
         String verb = "захныкал";
         feel(new ArrayList<>(List.of(Emo.SADNESS)));
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
     }
 
     @Override
-    public void upset() {
+    public void upset(Emo emo) throws MoodException{
+        if(emo != Emo.SADNESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
         String verb = "опечалился";
         feel(new ArrayList<>(List.of(Emo.SADNESS)));
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
     }
 
     @Override
-    public void laugh() {
+    public void laugh(Emo emo) throws MoodException {
+        if(emo != Emo.HAPPINESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
         String verb = "смеялся";
         System.out.printf("\"%s\" %s до слёз%n", getName(), verbEnding(verb));
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.RELIEF)));
     }
 
     @Override
-    public void kiss(WildlifeObjects object) {
+    public void kiss(WildlifeObjects object) throws LocationException {
         String verb = "поцеловал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS)));
