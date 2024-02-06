@@ -137,6 +137,8 @@ public class Main {
             System.out.println("Unchecked ошибка " + exception);
         }
 
+        System.out.println("Это было для них хорошее время");
+
         if (ellie.equals(gage)) {
             System.out.println("объекты равны");
         } else {
