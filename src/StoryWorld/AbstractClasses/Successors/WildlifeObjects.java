@@ -5,6 +5,7 @@ import StoryWorld.Alive.Person;
 import StoryWorld.Enums.Emo;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Enums.Place;
+import StoryWorld.Exceptions.LocationException;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,11 @@ public abstract class WildlifeObjects extends AnObject {
 
     public abstract void walk(InanimateObjects to);
 
-    public abstract void sleep();
+    public abstract void sleep(Place place) throws LocationException;
 
-    public abstract void say(Person object, String text);
+    public abstract void say(Person object, String text) throws LocationException;
 
     public abstract void say(String text);
-    public abstract void see(WildlifeObjects object);
+    public abstract void see(WildlifeObjects object) throws LocationException;
     public abstract void feel(ArrayList<Emo> emotion);
 }

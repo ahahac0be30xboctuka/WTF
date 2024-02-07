@@ -6,6 +6,7 @@ import StoryWorld.Enums.Emo;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 import StoryWorld.Enums.Place;
+import StoryWorld.Exceptions.LocationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +14,17 @@ import java.util.List;
 public class Cat extends WildlifeObjects {
     private int age;
     private final Gender gender;
-    int mood;
-    int tiredness;
+    private int mood;
+    private int tiredness;
 
     public Cat(String name, int age, Gender gender, Place location) throws AgeException {
         super(name, location);
-        this.age = age;
+        this.setAge(age);
         this.gender = gender;
     }
 
     public void setAge(int age) throws AgeException {
-        if (age < 0 || age > 20) throw new AgeException("Некорректный возраст животного age = " + age);
+        if (age < 0 || age > 20) throw new AgeException();
         this.age = age;
     }
 
@@ -41,12 +42,19 @@ public class Cat extends WildlifeObjects {
         System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verb, to.getName());
     }
 
-    public void sleep() {
+    public void sleep(Place place) throws LocationException {
+        if (place.getTitle().equals(Place.BEDROOM)) {
+            feel(new ArrayList<>(List.of(Emo.RELIEF)));
+            System.out.println(getName() + " спит");
+        } else {
+            throw new LocationException();
+        }
         feel(new ArrayList<>(List.of(Emo.RELIEF)));
         System.out.println(getName() + " спит");
     }
 
-    public void say(Person object, String text) {
+    public void say(Person object, String text) throws LocationException {
+        if(getLocation() != object.getLocation()) throw new LocationException();
         String verb = "мяукнул";
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), object.getName(),verb, text);
@@ -58,7 +66,8 @@ public class Cat extends WildlifeObjects {
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, text);
     }
 
-    public void see(WildlifeObjects object) {
+    public void see(WildlifeObjects object) throws LocationException {
+        if(getLocation() != object.getLocation()) throw new LocationException();
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, object.getName());
     }
@@ -67,7 +76,8 @@ public class Cat extends WildlifeObjects {
         expressEmotions(emotion);
     }
 
-    public void allowToCarryMe(WildlifeObjects object) {
+    public void allowToCarryMe(WildlifeObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "позволил";
         feel(new ArrayList<>(List.of(Emo.HAPPINESS)));
         System.out.printf("\"%s\" %s \"%s\" таскать себя%n", getName(), verb, object.getName());

@@ -1,7 +1,7 @@
 package StoryWorld.Exceptions;
 
 public class AgeException extends Exception {
-    public AgeException(String message) {
-        super(message);
+    public AgeException() {
+        super("Некорректный возраст человека");
     }
 }

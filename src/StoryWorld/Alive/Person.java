@@ -9,9 +9,10 @@ import StoryWorld.Exceptions.LocationException;
 import StoryWorld.Exceptions.MoodException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
 import StoryWorld.Inanimate.*;
-import StoryWorld.Interfaces.WildlifeInterfaces.ActionsDicreaseMood;
-import StoryWorld.Interfaces.WildlifeInterfaces.ActionsIncreaseMood;
-import StoryWorld.Interfaces.WildlifeInterfaces.HandsActions;
+import StoryWorld.Interfaces.ActionsChangeMood.ActionsDicreaseMood;
+import StoryWorld.Interfaces.ActionsChangeMood.ActionsIncreaseMood;
+import StoryWorld.Interfaces.ActionsWithObjects.ActionsWithInanimateObjects;
+import StoryWorld.Interfaces.ActionsWithObjects.ActionsWithWildlifeObjects;
 import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Person extends WildlifeObjects implements HandsActions, ActionsIncreaseMood, ActionsDicreaseMood {
+public class Person extends WildlifeObjects implements ActionsWithInanimateObjects, ActionsWithWildlifeObjects, ActionsIncreaseMood, ActionsDicreaseMood {
     private int age;
     public final ArrayList<Person> children;
     private final Gender gender;
@@ -41,6 +42,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         this.children = children;
         this.gender = gender;
     }
+
 
     private String verbEnding(String verb) {
         if (!gender.equals(Gender.MALE)) {
@@ -69,7 +71,7 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     public void setAge(int age) throws AgeException {
-        if (age < 0 || age > 200) throw new AgeException("Некорректный возраст человека age = " + age);
+        if (age < 0 || age > 200) throw new AgeException();
         this.age = age;
     }
 
@@ -84,25 +86,28 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         String verb = "подошел";
         setLocation(to.getLocation());
         this.tiredness += 5;
-        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb),to.getName());
+        System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
     }
 
-    public void sleep() {
-        feel(new ArrayList<>(List.of(Emo.RELIEF)));
-        System.out.println(getName() + " спит");
+    public void sleep(Place place) throws LocationException {
+        if (Place.BEDROOM.equals(place.getTitle()) || Place.ELLIES_ROOM.equals(place.getTitle())) {
+            feel(new ArrayList<>(List.of(Emo.RELIEF)));
+            System.out.println(getName() + " спит");
+        } else {
+            throw new LocationException();
+        }
     }
 
-    public void say(Person object, String text) {
+    public void say(Person object, String text) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "сказал";
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), verbEnding(verb), object.getName(), text);
-        if(text.equals("слова выговора")){
+        if (text.equals("слова выговора")) {
             object.feel(new ArrayList<>(List.of(Emo.SADNESS)));
-        }
-        else if (text.equals("слова радости")){
+        } else if (text.equals("слова радости")) {
             object.feel(new ArrayList<>(List.of(Emo.HAPPINESS)));
-        }
-        else
+        } else
             System.out.println();
     }
 
@@ -111,10 +116,13 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), text);
     }
-    public void see(WildlifeObjects object){
+
+    public void see(WildlifeObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
+
     public void feel(ArrayList<Emo> emotions) {
         expressEmotions("почувствовал", emotions);
     }
@@ -122,7 +130,9 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     private boolean objectTaken = false;
 
     @Override
-    public void put(WildlifeObjects object, InanimateObjects on) {
+    public void put(WildlifeObjects object, InanimateObjects on) throws LocationException {
+        if (getLocation() != object.getLocation() && getLocation() != on.getLocation()
+                && object.getLocation() != on.getLocation()) throw new LocationException();
         String verb = "положил";
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before put");
@@ -133,14 +143,16 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void take(InanimateObjects object) {
+    public void take(InanimateObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
     }
 
     @Override
-    public void take(WildlifeObjects object) {
+    public void take(WildlifeObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
@@ -154,17 +166,19 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void attach(InanimateObjects object, InanimateObjects to) {
+    public void attach(InanimateObjects object, InanimateObjects to) throws LocationException {
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before attach");
         }
+        if (object.getLocation() == to.getLocation()) throw new LocationException();
         String verb = "прикрепил";
-        System.out.printf("\"%s\" %s \"%s\" к \"%s\"%n", getName(), verbEnding(verb), object.getName(),to.getName());
+        System.out.printf("\"%s\" %s \"%s\" к \"%s\"%n", getName(), verbEnding(verb), object.getName(), to.getName());
         objectTaken = false;
     }
 
     @Override
-    public void bring(InanimateObjects object) {
+    public void bring(InanimateObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before bring");
         }
@@ -175,35 +189,40 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
     }
 
     @Override
-    public void make(InanimateObjects object) {
+    public void make(InanimateObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "сделал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
-    public void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException {
-        if (cost > this.money) throw new NotEnoughMoneyException("Не достаточно денег");
+    public void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException, LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (cost > this.money) throw new NotEnoughMoneyException();
         String verb = "купил";
         this.money -= cost;
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
-    public void tryToPull(Cat object) {
+    public void tryToPull(Cat object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
         object.feel(new ArrayList<>(List.of(Emo.ANGER)));
     }
 
     @Override
-    public void hug(WildlifeObjects object) {
+    public void hug(WildlifeObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
     }
 
     @Override
-    public void hug(InanimateObjects object) {
+    public void hug(InanimateObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
@@ -211,15 +230,15 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
 
     @Override
     public void cry(Emo emo) throws MoodException {
-        if(emo != Emo.SADNESS) throw new MoodException("Нельзя заплакать, не испытав печали");
+        if (emo != Emo.SADNESS) throw new MoodException("Нельзя заплакать, не испытав печали");
         String verb = "захныкал";
         feel(new ArrayList<>(List.of(Emo.SADNESS)));
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
     }
 
     @Override
-    public void upset(Emo emo) throws MoodException{
-        if(emo != Emo.SADNESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
+    public void upset(Emo emo) throws MoodException {
+        if (emo != Emo.SADNESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
         String verb = "опечалился";
         feel(new ArrayList<>(List.of(Emo.SADNESS)));
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
@@ -227,14 +246,14 @@ public class Person extends WildlifeObjects implements HandsActions, ActionsIncr
 
     @Override
     public void laugh(Emo emo) throws MoodException {
-        if(emo != Emo.HAPPINESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
+        if (emo != Emo.HAPPINESS) throw new MoodException("Нельзя расстроиться, не испытав печали");
         String verb = "смеялся";
         System.out.printf("\"%s\" %s до слёз%n", getName(), verbEnding(verb));
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.RELIEF)));
     }
 
-    @Override
     public void kiss(WildlifeObjects object) throws LocationException {
+        if (getLocation() != object.getLocation()) throw new LocationException();
         String verb = "поцеловал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS)));

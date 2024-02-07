@@ -1,4 +1,4 @@
-package StoryWorld.Interfaces.WildlifeInterfaces;
+package StoryWorld.Interfaces;
 
 @FunctionalInterface
 public interface StartStory {

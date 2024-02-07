@@ -3,7 +3,7 @@ package StoryWorld.Inanimate;
 import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 import StoryWorld.DateTime.DateTime;
 import StoryWorld.Enums.Time.TimeOfYear;
-import StoryWorld.Interfaces.InanimateInterfaces.LeavesActions;
+import StoryWorld.Interfaces.WeatherObjectInterfaces.LeavesActions;
 
 public class Leaves extends InanimateObjects implements LeavesActions {
     private String color;

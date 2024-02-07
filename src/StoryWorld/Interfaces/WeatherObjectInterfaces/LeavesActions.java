@@ -1,4 +1,4 @@
-package StoryWorld.Interfaces.InanimateInterfaces;
+package StoryWorld.Interfaces.WeatherObjectInterfaces;
 
 public interface LeavesActions {
     void yellowed();

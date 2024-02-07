@@ -1,4 +1,4 @@
-package StoryWorld.Interfaces.WildlifeInterfaces;
+package StoryWorld.Interfaces.ActionsChangeMood;
 
 import StoryWorld.Enums.Emo;
 import StoryWorld.Exceptions.MoodException;
