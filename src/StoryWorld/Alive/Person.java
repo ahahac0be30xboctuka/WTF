@@ -90,7 +90,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void sleep(Place place) throws LocationException {
-        if (Place.BEDROOM.equals(place.getTitle()) || Place.ELLIES_ROOM.equals(place.getTitle())) {
+        if (!Place.BEDROOM.equals(place.getTitle()) || !Place.ELLIES_ROOM.equals(place.getTitle())) {
             feel(new ArrayList<>(List.of(Emo.RELIEF)));
             System.out.println(getName() + " спит");
         } else {
@@ -99,7 +99,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void say(Person object, String text) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "сказал";
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), verbEnding(verb), object.getName(), text);
@@ -118,7 +118,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void see(WildlifeObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
@@ -131,7 +131,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void put(WildlifeObjects object, InanimateObjects on) throws LocationException {
-        if (getLocation() != object.getLocation() && getLocation() != on.getLocation()
+        if (getLocation() == object.getLocation() && getLocation() == on.getLocation()
                 && object.getLocation() != on.getLocation()) throw new LocationException();
         String verb = "положил";
         if (!objectTaken) {
@@ -144,7 +144,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void take(InanimateObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
@@ -152,7 +152,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void take(WildlifeObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
@@ -178,7 +178,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void bring(InanimateObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before bring");
         }
@@ -190,14 +190,14 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void make(InanimateObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "сделал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
     public void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException, LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         if (cost > this.money) throw new NotEnoughMoneyException();
         String verb = "купил";
         this.money -= cost;
@@ -206,7 +206,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void tryToPull(Cat object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
         object.feel(new ArrayList<>(List.of(Emo.ANGER)));
@@ -214,7 +214,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void hug(WildlifeObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
@@ -222,7 +222,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void hug(InanimateObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
@@ -253,7 +253,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void kiss(WildlifeObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "поцеловал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS)));

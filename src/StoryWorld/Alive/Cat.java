@@ -54,7 +54,7 @@ public class Cat extends WildlifeObjects {
     }
 
     public void say(Person object, String text) throws LocationException {
-        if(getLocation() != object.getLocation()) throw new LocationException();
+        if(getLocation() == object.getLocation()) throw new LocationException();
         String verb = "мяукнул";
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), object.getName(),verb, text);
@@ -67,7 +67,7 @@ public class Cat extends WildlifeObjects {
     }
 
     public void see(WildlifeObjects object) throws LocationException {
-        if(getLocation() != object.getLocation()) throw new LocationException();
+        if(getLocation() == object.getLocation()) throw new LocationException();
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verb, object.getName());
     }
@@ -77,7 +77,7 @@ public class Cat extends WildlifeObjects {
     }
 
     public void allowToCarryMe(WildlifeObjects object) throws LocationException {
-        if (getLocation() != object.getLocation()) throw new LocationException();
+        if (getLocation() == object.getLocation()) throw new LocationException();
         String verb = "позволил";
         feel(new ArrayList<>(List.of(Emo.HAPPINESS)));
         System.out.printf("\"%s\" %s \"%s\" таскать себя%n", getName(), verb, object.getName());
