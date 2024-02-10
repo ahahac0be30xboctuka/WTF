@@ -4,7 +4,7 @@ import StoryWorld.Enums.Time.DayOfWeek;
 import StoryWorld.Enums.Time.TimeOfDay;
 import StoryWorld.Enums.Time.TimeOfYear;
 
-public class DateTime {
+public final class DateTime {
     private final TimeOfYear timeOfYear;
     private DayOfWeek dayOfWeek;
     private final TimeOfDay timeOfDay;

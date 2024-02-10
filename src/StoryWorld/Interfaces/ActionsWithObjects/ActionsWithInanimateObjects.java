@@ -16,7 +16,7 @@ public interface ActionsWithInanimateObjects {
 
     void bring(InanimateObjects object) throws LocationException;
 
-    void make(InanimateObjects object) throws LocationException;
+    void make(InanimateObjects object);
 
-    void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException, LocationException;
+    void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException;
 }

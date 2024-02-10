@@ -4,21 +4,20 @@ import StoryWorld.AbstractClasses.Successors.InanimateObjects;
 import StoryWorld.AbstractClasses.Successors.WildlifeObjects;
 import StoryWorld.Enums.Emo;
 import StoryWorld.Enums.Gender;
+import StoryWorld.Enums.Place;
 import StoryWorld.Exceptions.AgeException;
 import StoryWorld.Exceptions.LocationException;
 import StoryWorld.Exceptions.MoodException;
 import StoryWorld.Exceptions.NotEnoughMoneyException;
-import StoryWorld.Inanimate.*;
+import StoryWorld.Inanimate.Paper;
 import StoryWorld.Interfaces.ActionsChangeMood.ActionsDicreaseMood;
 import StoryWorld.Interfaces.ActionsChangeMood.ActionsIncreaseMood;
 import StoryWorld.Interfaces.ActionsWithObjects.ActionsWithInanimateObjects;
 import StoryWorld.Interfaces.ActionsWithObjects.ActionsWithWildlifeObjects;
-import StoryWorld.Enums.Place;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class Person extends WildlifeObjects implements ActionsWithInanimateObjects, ActionsWithWildlifeObjects, ActionsIncreaseMood, ActionsDicreaseMood {
     private int age;
@@ -27,7 +26,6 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     private int mood;
     private int tiredness;
     private int money;
-
 
     public Person(String name, int age, Gender gender, Place location) throws AgeException {
         super(name, location);
@@ -89,17 +87,19 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
         System.out.printf("\"%s\" %s к \"%s\"%n", getName(), verbEnding(verb), to.getName());
     }
 
-    public void sleep(Place place) throws LocationException {
-        if (!Place.BEDROOM.equals(place.getTitle()) || !Place.ELLIES_ROOM.equals(place.getTitle())) {
+    public void sleep(Place place) {
+        if (place == Place.ELLIES_ROOM || place == Place.BEDROOM) {
             feel(new ArrayList<>(List.of(Emo.RELIEF)));
             System.out.println(getName() + " спит");
         } else {
-            throw new LocationException();
+            throw new IllegalStateException("В этой локации" + " " + getName() + " " + "не может уснуть");
         }
+        feel(new ArrayList<>(List.of(Emo.RELIEF)));
+        System.out.println(getName() + " спит");
     }
 
     public void say(Person object, String text) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "сказал";
         this.tiredness += 1;
         System.out.printf("\"%s\" %s \"%s\" \"%s\"%n", getName(), verbEnding(verb), object.getName(), text);
@@ -118,7 +118,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void see(WildlifeObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "увидел";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
@@ -131,8 +131,8 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void put(WildlifeObjects object, InanimateObjects on) throws LocationException {
-        if (getLocation() == object.getLocation() && getLocation() == on.getLocation()
-                && object.getLocation() != on.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation()) && !getLocation().equals(on.getLocation())
+                && !object.getLocation().equals(on.getLocation())) throw new LocationException();
         String verb = "положил";
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before put");
@@ -144,7 +144,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void take(InanimateObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
@@ -152,14 +152,15 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void take(WildlifeObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "взял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = true;
     }
 
     @Override
-    public void write(Paper paper, String text) {
+    public void write(Paper paper, String text) throws LocationException {
+        if (!getLocation().equals(paper.getLocation())) throw new LocationException();
         String verb = "написал";
         paper.text = text;
         System.out.printf("\"%s\" %s на \"%s\" \"%s\"%n", getName(), verbEnding(verb), paper.getName(), paper.text);
@@ -170,7 +171,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before attach");
         }
-        if (object.getLocation() == to.getLocation()) throw new LocationException();
+        if (!object.getLocation().equals(to.getLocation())) throw new LocationException();
         String verb = "прикрепил";
         System.out.printf("\"%s\" %s \"%s\" к \"%s\"%n", getName(), verbEnding(verb), object.getName(), to.getName());
         objectTaken = false;
@@ -178,7 +179,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void bring(InanimateObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         if (!objectTaken) {
             throw new IllegalStateException("take method should be called before bring");
         }
@@ -189,15 +190,13 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     @Override
-    public void make(InanimateObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+    public void make(InanimateObjects object) {
         String verb = "сделал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
     @Override
-    public void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException, LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+    public void buy(InanimateObjects object, int cost) throws NotEnoughMoneyException {
         if (cost > this.money) throw new NotEnoughMoneyException();
         String verb = "купил";
         this.money -= cost;
@@ -206,7 +205,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void tryToPull(Cat object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "попытался подергать" + " " + object.getName() + " " + "за хвост";
         System.out.printf("\"%s\" %s%n", getName(), verbEnding(verb));
         object.feel(new ArrayList<>(List.of(Emo.ANGER)));
@@ -214,7 +213,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void hug(WildlifeObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
@@ -222,7 +221,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
 
     @Override
     public void hug(InanimateObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "обнял";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.HAPPINESS, Emo.LOVE)));
@@ -253,7 +252,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
     }
 
     public void kiss(WildlifeObjects object) throws LocationException {
-        if (getLocation() == object.getLocation()) throw new LocationException();
+        if (!getLocation().equals(object.getLocation())) throw new LocationException();
         String verb = "поцеловал";
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         feel(new ArrayList<>(Arrays.asList(Emo.LOVE, Emo.HAPPINESS)));
@@ -272,18 +271,5 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
             System.out.printf("%s ", emo.getEmotion());
         }
         System.out.println();
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Person)) return false;
-        Person person = (Person) object;
-        return this.hashCode() == object.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), age, children, gender, mood, tiredness);
     }
 }

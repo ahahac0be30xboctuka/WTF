@@ -2,12 +2,15 @@ package StoryWorld.AbstractClasses;
 
 import StoryWorld.Enums.Place;
 
+import java.util.Objects;
+
 public abstract class AnObject {
     private final String name;
 
     public String getName() {
         return name;
     }
+
     Coordinates coordinates = new Coordinates(
             Place.WORLD_DEFAULT.getX_coord(), Place.WORLD_DEFAULT.getY_coord(), Place.WORLD_DEFAULT.getZ_coord());
 
@@ -18,6 +21,21 @@ public abstract class AnObject {
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Coordinates that = (Coordinates) o;
+            return x == that.x &&
+                    y == that.y &&
+                    z == that.z;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y, z);
         }
 
         @Override
@@ -50,8 +68,8 @@ public abstract class AnObject {
                 my_z += step_z;
                 this.coordinates.z = my_z;
             }
-                System.out.printf("[ Координаты объекта %s x, y, z = %d, %d, %d ]%n", this.name,
-                        this.coordinates.x, this.coordinates.y, this.coordinates.z);
+            System.out.printf("[ Координаты объекта %s x, y, z = %d, %d, %d ]%n", this.name,
+                    this.coordinates.x, this.coordinates.y, this.coordinates.z);
         }
     }
 
@@ -79,6 +97,7 @@ public abstract class AnObject {
         this.coordinates.y = location.getY_coord();
         this.coordinates.z = location.getZ_coord();
     }
+
     public interface CoordinateDifference {
         void dif(int x1, int y1, int z1, int x2, int y2, int z2);
     }

@@ -55,7 +55,7 @@ public class Main {
         louis.put(ellie, new Bed("Кровать Элли", Place.ELLIES_ROOM));
         louis.kiss(ellie);
 
-        Paper paper = new Paper("листок бумаги", Place.HALL);
+        Paper paper = new Paper("листок бумаги", Place.ELLIES_ROOM);
 
         louis.take(paper);
         louis.write(paper, "Буду завтра, люблю, Черч");
@@ -82,10 +82,12 @@ public class Main {
         }
 
         gage.tryToPull(cherch);
+        ellie.setLocation(Place.HOME);
         ellie.feel(new ArrayList<>(List.of(Emo.ANGER)));
         ellie.say(gage, "слова выговора");
         gage.cry(Emo.SADNESS);
 
+        louis.setLocation(Place.HOME);
         louis.see(cherch);
         louis.upset(Emo.SADNESS);
 
@@ -119,12 +121,6 @@ public class Main {
         }
 
         System.out.println("Это было для них хорошее время");
-
-        if (ellie.equals(gage)) {
-            System.out.println("объекты равны");
-        } else {
-            System.out.println("объекты не равны");
-        }
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Хотите посчитать перемещение? (да/нет)");
