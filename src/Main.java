@@ -128,19 +128,17 @@ public class Main {
         String answer = sc.nextLine();
 
         if ("да".equalsIgnoreCase(answer)) {
-            System.out.println("Введите координаты места 1 (x1, y1, z1):");
+            System.out.println("Введите координаты места 1 (x1, y1):");
             int x1 = sc.nextInt();
             int y1 = sc.nextInt();
-            int z1 = sc.nextInt();
 
-            System.out.println("Введите координаты места 2 (x2, y2, z2):");
+            System.out.println("Введите координаты места 2 (x2, y2):");
             int x2 = sc.nextInt();
             int y2 = sc.nextInt();
-            int z2 = sc.nextInt();
 
-            AnObject.CoordinateDifference coordinates = (x, y, z, a, b, c) ->
-                    System.out.printf("Разница: %d, %d, %d", Math.abs(x - a), Math.abs(y - b), Math.abs(z - c));
-            coordinates.dif(x1, y1, z1, x2, y2, z2);
+            AnObject.CoordinateDifference coordinates = (x, y, a, b) ->
+                    System.out.printf("Разница: %d, %d", Math.abs(x - a), Math.abs(y - b));
+            coordinates.dif(x1, y1, x2, y2);
         } else {
             System.out.println("Ну, не хочешь - как хочешь");
         }
