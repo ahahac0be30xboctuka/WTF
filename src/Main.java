@@ -31,7 +31,7 @@ public class Main {
         new DateTime(TimeOfYear.SUMMER, DayOfWeek.MONDAY, TimeOfDay.EVENING);
 
         Person ellie = new Person("Элли", 15, Gender.FEMALE, Place.ELLIES_ROOM);
-        Person gage = new Person("Гэдж", 10, Gender.MALE, Place.HOME);
+        Person gage = new Person("Гэдж", 10, Gender.MALE, Place.HALL);
 
         ArrayList<Person> children = new ArrayList<>();
         children.add(gage);
@@ -82,12 +82,12 @@ public class Main {
         }
 
         gage.tryToPull(cherch);
-        ellie.setLocation(Place.HOME);
+        ellie.setLocation(Place.HALL);
         ellie.feel(new ArrayList<>(List.of(Emo.ANGER)));
         ellie.say(gage, "слова выговора");
         gage.cry(Emo.SADNESS);
 
-        louis.setLocation(Place.HOME);
+        louis.setLocation(Place.HALL);
         louis.see(cherch);
         louis.upset(Emo.SADNESS);
 

@@ -184,7 +184,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
             throw new IllegalStateException("take method should be called before bring");
         }
         String verb = "принес";
-        setLocation(object.setLocation(Place.HOME));
+        setLocation(object.setLocation(Place.HALL));
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
         objectTaken = false;
     }

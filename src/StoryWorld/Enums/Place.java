@@ -2,7 +2,6 @@ package StoryWorld.Enums;
 
 public enum Place {
     WORLD_DEFAULT("Мир кладбища домашних животных", 0, 0),
-    HOME("Дом семьи Крид", 5, 5),
     ELLIES_ROOM("Комната Элли", 4, 4),
     BEDROOM("Спальная комната", 3, 3),
     HALL("Зал", 2, 2),

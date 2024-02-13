@@ -5,6 +5,6 @@ import StoryWorld.Enums.Place;
 
 public class Home extends InanimateObjects {
     public Home() {
-        super(Place.HOME.getTitle(), Place.HOME);
+        super(Place.HALL.getTitle(), Place.HALL);
     }
 }
