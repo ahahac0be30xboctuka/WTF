@@ -42,6 +42,7 @@ public class Main {
         Cat cherch = new Cat("Черч", 7, Gender.MALE, Place.WORLD_DEFAULT);
         Home home = new Home();
 
+
         ellie.cry(Emo.SADNESS);
         System.out.println("Наступила тишина");
 
@@ -79,6 +80,8 @@ public class Main {
             ellie.make(present);
         } catch (NotEnoughMoneyException notEnoughMoney) {
             System.out.println("Похоже, что у Элли не хватает денег на покупку подарка");
+        } finally {
+            System.out.println(ellie.getName() + " " + "хотела поднять настроение" + " " + cherch.getName());
         }
 
         gage.tryToPull(cherch);
@@ -113,14 +116,15 @@ public class Main {
         ellie.say(gage, "история про Всадника без головы");
         gage.say("про дядю Чихача");
         rachel.laugh(Emo.HAPPINESS);
+        System.out.println("Это было для них хорошее время");
+
+
 
         try {
             System.out.println(ellie.children.get(0).getName());
         } catch (NullPointerException exception) {
             System.out.println("Unchecked ошибка " + exception);
         }
-
-        System.out.println("Это было для них хорошее время");
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Хотите посчитать перемещение? (да/нет)");
