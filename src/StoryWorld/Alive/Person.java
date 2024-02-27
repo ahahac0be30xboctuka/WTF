@@ -263,7 +263,7 @@ public class Person extends WildlifeObjects implements ActionsWithInanimateObjec
         System.out.printf("\"%s\" %s \"%s\"%n", getName(), verbEnding(verb), object.getName());
     }
 
-    public void expressEmotions(String verb, ArrayList<Emo> emotions) {
+    private void expressEmotions(String verb, ArrayList<Emo> emotions) {
         System.out.printf("%s %s ", this.getName(), verbEnding(verb));
         for (Emo emo : emotions) {
             this.mood += emo.getMood();

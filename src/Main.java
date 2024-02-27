@@ -40,7 +40,7 @@ public class Main {
         Person louis = new Person("Луис", 45, Gender.MALE, Place.HALL, children);
         Person rachel = new Person("Рэчел", 40, Gender.FEMALE, Place.BEDROOM, children);
         Cat cherch = new Cat("Черч", 7, Gender.MALE, Place.WORLD_DEFAULT);
-        Home home = new Home();
+        Home home = new Home(); home.createAdress();
 
 
         ellie.cry(Emo.SADNESS);
